@@ -1,6 +1,6 @@
 export const uploadPages = [
   {
-    id: "upload-image",
+    id: "upload/image",
     title: "Upload image",
   },
 ];

@@ -37,7 +37,7 @@ export default function Layout({
               <img
                 src="/images/El_logo_colour_12.09.png"
                 className={styles.headerHomeImage}
-                alt={name}
+                alt="logo"
               />
             </a>
           </Link>
