@@ -25,10 +25,6 @@
   line-height: 1.5;
 }
 
-.borderCircle {
-  border-radius: 9999px;
-}
-
 .colorInherit {
   color: inherit;
 }
@@ -49,4 +45,9 @@
 
 .lightText {
   color: #666;
+}
+
+.headingLink {
+  text-decoration: none;
+  color: initial;
 }
