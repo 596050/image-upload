@@ -1,5 +1,3 @@
-export type RequestArgs = RequestInit;
-
 export enum HttpMethods {
   "GET" = "GET",
   "PUT" = "PUT",
@@ -19,7 +17,7 @@ export const fetcher = (method: HttpMethods) => <T>({
   options,
 }: {
   url: string;
-  options?: RequestArgs;
+  options?: RequestInit;
 }): Promise<T | undefined> =>
   fetch(url, {
     method,

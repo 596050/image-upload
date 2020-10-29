@@ -1,15 +1,26 @@
 import React, { ReactNode } from "react";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      marginTop: "10px",
+    },
+  })
+);
 
 type Props = {
   children: ReactNode;
 };
 
 const Wrapper = ({ children }: Props) => {
-  return <Container maxWidth="xl">{children}</Container>;
+  const classes = useStyles();
+  return (
+    <Container className={classes.root} maxWidth="xl">
+      {children}
+    </Container>
+  );
 };
 
 export default Wrapper;

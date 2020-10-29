@@ -1,13 +1,4 @@
-import { baseURL, post, RequestArgs } from "../api";
-
-type RequestProps = { options: RequestArgs };
-
-type AnonymousUploadPostResponse = {
-  id: string;
-  name: string;
-  size: number;
-  url: string;
-};
+import { baseURL, post } from "../api";
 
 export const uploadImageToAnonymous = async (props?: RequestProps) => {
   const res = await post<AnonymousUploadPostResponse>({
@@ -18,5 +9,5 @@ export const uploadImageToAnonymous = async (props?: RequestProps) => {
     },
   });
 
-  return res || {};
+  return res;
 };

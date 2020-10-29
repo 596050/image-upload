@@ -1,36 +1,22 @@
 import React, { Children } from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets, withStyles } from "@material-ui/core/styles";
-import { muiTheme } from "../util";
-import { Wrapper } from "../components";
 
-export default class AppDocument extends Document {
+import { muiTheme } from "../util";
+
+class AppDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" style={{ height: "100%" }}>
         <Head>
           <link rel="icon" href="../public/favicon.ico" />
-
-          {/* PWA primary color */}
           <meta name="theme-color" content={muiTheme.palette.primary.main} />
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
-        <header>
-          <Wrapper>
-            <a href="/">
-              <img
-                src="/images/El_logo_colour_12.09.png"
-                alt="logo"
-                width="100%"
-                height="100%"
-              />
-            </a>
-          </Wrapper>
-        </header>
-        <body>
+        <body style={{ height: "100%" }}>
           <Main />
           <NextScript />
         </body>
@@ -84,3 +70,5 @@ AppDocument.getInitialProps = async (ctx) => {
     ],
   };
 };
+
+export default AppDocument;

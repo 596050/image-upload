@@ -1,25 +1,77 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
+import clsx from "clsx";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { CircularProgress, ListItem, ListItemText } from "@material-ui/core";
 
-import { getUploadPageIds } from "../../lib/upload";
+import { getUploadPageIds, validateImageUpload } from "../../lib/upload";
 import { uploadImageToAnonymous } from "../api";
+import { List } from "../../components";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    uploadArticle: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+    uploadForm: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      '& > input[type="file"]': {
+        display: "none",
+      },
+    },
+    disabled: ({ loading }: { loading: boolean }) => ({
+      pointerEvents: loading ? "none" : undefined,
+      backgroundColor: loading
+        ? theme.palette.action.disabledBackground
+        : undefined,
+    }),
+    uploadLabel: {
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      border: theme.custom.border,
+      padding: `${theme.spacing(2)}px ${theme.spacing(4)}px`,
+      cursor: "pointer",
+      boxShadow: theme.custom.boxShadow,
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      "&:hover": {
+        backgroundColor: theme.custom.hover,
+      },
+      "&:active": {
+        backgroundColor: theme.custom.active,
+      },
+    },
+  })
+);
 
 // check file for security violations, have notification if something goes wrong (error handling)
 // testing
-// add mui and styled components and make responsive
 // clean up, read me and check performance, use typescript in all files
 // non-functional requirements, accessibility
-//
 
-export default function Upload() {
+function Upload() {
   const [loading, setLoading] = useState<boolean>(false);
-  // const [imageUploaded, setImageUploaded] = useState<object>(undefined);
+  const [imagesUploaded, setImagesUploaded] = useState<
+    AnonymousUploadPostResponse[]
+  >(undefined);
+  const classes = useStyles({ loading });
 
   const handleImage = async (event) => {
-    const file = event.target?.files[0] || undefined;
-    // check file
-    if (!file) return;
     try {
+      const file = validateImageUpload(event.target?.files) || undefined;
+      // check file
+      if (!file) {
+        return;
+      }
       const formData = new FormData();
       formData.append("file", file);
       formData.append("expires_at", "1h");
@@ -31,11 +83,13 @@ export default function Upload() {
         },
       });
 
-      console.log({ res });
-      // setImageUploaded(res);
+      // copy url to clipboard
+      navigator.clipboard.writeText(res.url);
+
+      setImagesUploaded((prev) => [res, ...(prev || [])]);
     } catch (error) {
       console.log(error);
-      // setImageUploaded(undefined);
+      alert(`${error}`);
     }
     setLoading(false);
   };
@@ -45,18 +99,49 @@ export default function Upload() {
       <Head>
         <title>Upload image</title>
       </Head>
-      <article>
+
+      <article className={classes.uploadArticle}>
         <h1>Upload</h1>
-        Please upload an image
-        <form encType="multipart/form-data">
+        <form encType="multipart/form-data" className={classes.uploadForm}>
+          <label
+            htmlFor="file-upload"
+            className={clsx(classes.uploadLabel, classes.disabled)}
+          >
+            {loading ? (
+              <CircularProgress
+                style={{ width: "20px", height: "20px" }}
+                color="secondary"
+              />
+            ) : (
+              "Upload an image"
+            )}
+          </label>
           <input
+            id="file-upload"
             onChange={handleImage}
             type="file"
-            name="uploadImageButton"
+            name="upload-image-button"
             placeholder="Upload File"
             accept="image/*"
           />
         </form>
+        {imagesUploaded ? (
+          <>
+            <h2>Uploaded Images:</h2>
+            <List>
+              {(imagesUploaded || [])?.map((uploadedImage) => {
+                return (
+                  <ListItem key={uploadedImage.id}>
+                    <ListItemText
+                      primary={uploadedImage.url}
+                      secondary={uploadedImage.name}
+                    />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </>
+        ) : null}
       </article>
     </>
   );
@@ -75,3 +160,5 @@ export async function getStaticProps({ params }) {
     props: {},
   };
 }
+
+export default Upload;
