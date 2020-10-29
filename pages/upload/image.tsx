@@ -1,15 +1,15 @@
 import { useState } from "react";
-import Layout from "../../components/layout";
-import { getUploadPageIds } from "../../lib/upload";
 import Head from "next/head";
-import utilStyles from "../../styles/utils.module.css";
+
+import { getUploadPageIds } from "../../lib/upload";
 import { uploadImageToAnonymous } from "../api";
 
-// check file for security violations, have notification if something goes wrong
+// check file for security violations, have notification if something goes wrong (error handling)
 // testing
 // add mui and styled components and make responsive
 // clean up, read me and check performance, use typescript in all files
 // non-functional requirements, accessibility
+//
 
 export default function Upload() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -41,13 +41,12 @@ export default function Upload() {
   };
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Upload image</title>
       </Head>
-
       <article>
-        <h1 className={utilStyles.headingXl}>Upload</h1>
+        <h1>Upload</h1>
         Please upload an image
         <form encType="multipart/form-data">
           <input
@@ -59,7 +58,7 @@ export default function Upload() {
           />
         </form>
       </article>
-    </Layout>
+    </>
   );
 }
 

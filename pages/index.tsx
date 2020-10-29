@@ -1,39 +1,38 @@
 import Head from "next/head";
-import Layout, { siteTitle } from "../components/layout";
-import utilStyles from "../styles/utils.module.css";
 import { getUploadPageData } from "../lib/upload";
-import Link from "next/link";
+import { Link } from "../components";
+import { withStyles } from "@material-ui/core";
 
-export default function Home({ pagesData }) {
-  console.log({ pagesData });
+const styles = () => ({
+  list: {
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
+  },
+});
+
+function Home({ classes, pagesData }) {
   return (
-    <Layout home>
+    <>
       <Head>
-        <title>{siteTitle}</title>
+        <title>Home</title>
       </Head>
-      <section className={utilStyles.headingMd}>
-        <p>
-          (This is a sample website - you’ll be building a site like this in{" "}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Upload image</h2>
-        <ul className={utilStyles.list}>
+      <section className="headingMd padding1px">
+        <h2 className="headingLg">Upload image</h2>
+        <ul className={classes.list}>
           {pagesData.map(({ id, title }) => {
             return (
-              <li className={utilStyles.listItem} key={id}>
-                <Link href={`/${id}`}>
-                  <a>{title}</a>
-                </Link>
+              <li className="listItem" key={id}>
+                <Link href={`/${id}`}>{title}</Link>
               </li>
             );
           })}
         </ul>
       </section>
-    </Layout>
+    </>
   );
 }
+export default withStyles(styles)(Home);
 
 export async function getStaticProps() {
   const uploadPageData = getUploadPageData();
