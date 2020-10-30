@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import { getUploadPageData } from "../lib/upload";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     uploadArticle: {
       display: "flex",
@@ -15,6 +15,14 @@ const useStyles = makeStyles(() =>
       listStyle: "none",
       padding: 0,
       margin: 0,
+    },
+    listItem: {
+      "li + li": {
+        paddingBottom: theme.spacing(1),
+      },
+    },
+    listSection: {
+      paddingTop: theme.spacing(1),
     },
   })
 );
@@ -29,11 +37,11 @@ function Home({ pagesData }) {
       </Head>
       <article className={classes.uploadArticle}>
         <h1>Pages</h1>
-        <section>
+        <section className={classes.listSection}>
           <ul className={classes.list}>
             {pagesData.map(({ id, title }) => {
               return (
-                <li key={id}>
+                <li key={id} className={classes.listItem}>
                   <a href={`/${id}`}>
                     <p>{title}</p>
                   </a>

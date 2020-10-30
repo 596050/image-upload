@@ -44,5 +44,9 @@ export const muiTheme = createMuiTheme({
       default: theme.palette.primary,
       paper: theme.palette.primary,
     },
+    info: {
+      main: theme.palette.secondary,
+      contrastText: theme.palette.primaryContrast,
+    },
   },
 });

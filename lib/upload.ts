@@ -26,7 +26,7 @@ export const getUploadPageIds = () => {
 
 export const validateImageUpload = (files) => {
   // must have one file
-  if (Array.isArray(files) && files.length === 1) {
+  if (!files || (Array.isArray(files) && files.length !== 1)) {
     throw new Error("Invalid upload, must have one file");
   }
 

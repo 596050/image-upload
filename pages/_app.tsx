@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     paper: {
       padding: theme.spacing(4),
+      overflow: "hidden",
     },
   })
 );
