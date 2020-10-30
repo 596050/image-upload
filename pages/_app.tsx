@@ -44,7 +44,7 @@ export default function App(props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <AppBar />
+      <AppBar src="/images/El_logo_colour_12.09.png" alt="logo" />
       <Wrapper>
         <CssBaseline />
         <Paper elevation={3} className={classes.paper}>

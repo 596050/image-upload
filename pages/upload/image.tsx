@@ -8,10 +8,6 @@ import { uploadImageToAnonymous } from "../api";
 import { List } from "../../components";
 import { useStyles } from "./image.styles";
 
-// have notification if something goes wrong (error handling)
-// testing
-// non-functional requirements, accessibility
-
 function Upload() {
   const [loading, setLoading] = useState<boolean>(false);
   const [imagesUploaded, setImagesUploaded] = useState<
